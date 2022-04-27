@@ -16,17 +16,7 @@
     width: 100%;
 }
 
-/*After e Before: são pseudo-classes que informam o comportamento de um ou vários 
-                elementos Depois ou Antes de um clique ou interação da pessoa usuaária*/
-.MuiInput-underline::after,
-.MuiInput-underline::before{
-    border-bottom: 2px solid #FFFFFF!important;
-}
-
-
-.MuiFormLabel-root,
-.MuiInputBase-root,
-.MuiFormLabel-root.Mui-focused{
+.MuiFormLabel-root{
     color: #FFFFFF;
 }
 
