@@ -54,7 +54,7 @@ function CadastroUsuario() {
 
             //Tenta executar o cadastro
             try {
-                cadastroUsuario(`/usuarios/cadastrar`, user, setUserResult)
+                await cadastroUsuario(`/usuarios/cadastrar`, user, setUserResult)
                 alert('Usuario cadastrado com sucesso')
 
             //Se houver erro, pegue o Erro e retorna uma msg
