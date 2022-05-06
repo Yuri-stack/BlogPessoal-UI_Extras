@@ -1,0 +1,29 @@
+img{
+    width: 250px!important;
+}
+
+.cardContainer{
+    display: flex!important;
+    width: 800px!important;
+}
+
+.cardProduct{
+    display: flex!important;
+    align-items: center;
+}
+
+.cardProductInfo{
+    display: flex;
+    flex-direction: column;
+
+    margin-left: 50px;
+    width: 250px;
+}
+
+.cardProductButton{
+    margin-bottom: 5px;
+    text-decoration: none;
+}
+.cardProductButton button{
+    width: 200px!important;
+}
