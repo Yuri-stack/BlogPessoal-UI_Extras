@@ -1,0 +1,33 @@
+.card-principal{
+    display: flex;
+    border-radius: 32px 0;
+    padding: 20px;
+    margin: 20px;
+    background-color: #3f51b5;
+}
+
+.card-container-imagem{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 40px;
+}
+
+.card-container-info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 32px 32px 32px 56px;
+}
+
+.card-imagem{
+    max-height: 500px;
+    border-radius: 32px;
+    object-fit: cover;
+}
+
+.card-container-texto{
+    max-width: 550px;
+    color: #fff;
+    text-align: justify;
+}
