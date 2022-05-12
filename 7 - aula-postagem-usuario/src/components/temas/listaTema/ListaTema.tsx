@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import { Box, Button, Card, CardActions, CardContent, Typography } from '@material-ui/core'
-import { Link, useHistory } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { useSelector } from 'react-redux';
-import { UserState } from '../../../store/user/userReducer';
-
-import Tema from '../../../models/Tema'
 import { busca } from '../../../services/Service'
+
+import { UserState } from '../../../store/tokens/userReducer';
+import Tema from '../../../models/Tema'
 
 import './ListaTema.css'
 
 function ListaTema() {
 
-  let history = useHistory()
+  let history = useNavigate()
 
   const [temas, setTemas] = useState<Tema[]>([])
 
@@ -23,7 +23,7 @@ function ListaTema() {
   useEffect(() => {
     if (token === "") {
       alert("Você precisa estar logado")
-      history.push("/login")
+      history("/login")
     }
   }, [token])
 

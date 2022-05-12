@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { Box, Button, Card, CardActions, CardContent, Typography } from '@material-ui/core'
-import { useHistory, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
-import { UserState } from '../../../store/user/userReducer';
-
-import Tema from '../../../models/Tema';
 import { buscaId, deleteId } from '../../../services/Service';
+
+import { UserState } from '../../../store/tokens/userReducer';
+import Tema from '../../../models/Tema';
 
 import "./DeletarTema.css"
 
 function DeletarTema() {
 
-    let history = useHistory();
+    let history = useNavigate();
 
     const { id } = useParams<{ id: string }>();
 
@@ -25,37 +25,45 @@ function DeletarTema() {
     useEffect(() => {
         if (token === "") {
             alert("Você precisa estar logado")
-            history.push("/login")
+            history("/login")
 
         }
     }, [token])
 
     useEffect(() => {
-        if (id !== '') {
+        if (id !== undefined) {
             findById(id)
         }
     }, [id])
 
     async function findById(id: string) {
-        buscaId(`/temas/${id}`, setTema, {
+        await buscaId(`/temas/${id}`, setTema, {
             headers: {
                 'Authorization': token
             }
         })
     }
 
-    function sim() {
-        history.push('/temas')
-        deleteId(`/temas/${id}`, {
-            headers: {
-                'Authorization': token
-            }
-        });
-        alert('Tema deletado com sucesso');
+    async function sim() {
+        history('/temas')
+
+        try {
+            await deleteId(`/temas/${id}`, {
+                headers: {
+                    'Authorization': token
+                }
+            });
+            
+            alert('Tema deletado com sucesso');
+            
+        } catch (error) {
+            alert('Erro ao deletar');
+        }
+
     }
 
     function nao() {
-        history.push('/temas')
+        history('/temas')
     }
 
     return (

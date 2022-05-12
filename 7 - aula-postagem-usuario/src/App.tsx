@@ -1,86 +1,62 @@
 import React from 'react';
 
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import store from './store/store';
 
-import NavBar from './components/static/NavBar/NavBar'
+import Navbar from './components/static/Navbar/Navbar';
 import Footer from './components/static/Footer/Footer';
 import ListaTema from './components/temas/listaTema/ListaTema';
-import DeletarTema from './components/temas/deletarTema/DeletarTema';
-import CadastroTema from './components/temas/cadastroTema/CadastroTema';
 import ListaPostagem from './components/postagens/listaPostagem/ListaPostagem';
-import DeletarPostagem from './components/postagens/deletarPostagem/DeletarPostagem';
 import CadastroPostagem from './components/postagens/cadastroPostagem/CadastroPostagem';
+import CadastroTema from './components/temas/cadastroTema/CadastroTema';
+import DeletarPostagem from './components/postagens/deletarPostagem/DeletarPostagem';
+import DeletarTema from './components/temas/deletarTema/DeletarTema';
 
-import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
+import Home from './pages/Home/Home';
 import CadastroUsuario from './pages/CadastroUsuario/CadastroUsuario';
-
-import store from './store/store';
 import Perfil from './pages/Perfil/Perfil';
 
 function App() {
   return (
     <Provider store={store}>
       <Router>
-        <NavBar />
-        <Switch>
-          <div style={{ minHeight: "90vh" }}>
+        <Navbar />
 
-            <Route exact path="/">
-              <Login />
-            </Route>
+        <div style={{ minHeight: '100vh' }}>
 
-            <Route path="/login">
-              <Login />
-            </Route>
+          <Routes>
+            <Route path="/" element={<Login />} />
 
-            <Route path="/home">
-              <Home />
-            </Route>
+            <Route path="/login" element={<Login />} />
 
-            <Route path="/cadastro">
-              <CadastroUsuario />
-            </Route>
+            <Route path="/home" element={<Home />} />
 
-            <Route path="/temas">
-              <ListaTema />
-            </Route>
+            <Route path="/cadastro" element={<CadastroUsuario />} />
 
-            <Route path="/posts">
-              <ListaPostagem />
-            </Route>
+            <Route path="/temas" element={<ListaTema />} />
 
-            <Route exact path='/formularioPostagem'>
-              <CadastroPostagem />
-            </Route>
+            <Route path="/posts" element={<ListaPostagem />} />
 
-            <Route exact path='/formularioPostagem/:id'>
-              <CadastroPostagem />
-            </Route>
+            <Route path="/formularioPostagem" element={<CadastroPostagem />} />
 
-            <Route exact path='/formularioTema'>
-              <CadastroTema />
-            </Route>
+            <Route path="/formularioPostagem/:id" element={<CadastroPostagem />} />
 
-            <Route exact path='/formularioTema/:id'>
-              <CadastroTema />
-            </Route>
+            <Route path="/formularioTema" element={<CadastroTema />} />
 
-            <Route path='/deletarPostagem/:id'>
-              <DeletarPostagem />
-            </Route>
+            <Route path="/formularioTema/:id" element={<CadastroTema />} />
 
-            <Route path='/deletarTema/:id'>
-              <DeletarTema />
-            </Route>
+            <Route path="/deletarPostagem/:id" element={<DeletarPostagem />} />
 
-            <Route path='/perfil'>
-              <Perfil />
-            </Route>
+            <Route path="/deletarTema/:id" element={<DeletarTema />} />
 
-          </div>
-        </Switch>
+            <Route path='/perfil' element={<Perfil />} />
+
+          </Routes>
+
+        </div>
+
         <Footer />
       </Router>
     </Provider>

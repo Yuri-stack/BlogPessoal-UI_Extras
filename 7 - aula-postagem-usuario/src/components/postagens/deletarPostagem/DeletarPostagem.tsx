@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { Box, Button, Card, CardActions, CardContent, Typography } from '@material-ui/core';
-import { useHistory, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
-import { UserState } from '../../../store/user/userReducer';
+import { UserState } from '../../../store/tokens/userReducer';
+import { buscaId, deleteId } from '../../../services/Service';
 
 import Postagem from '../../../models/Postagem';
-import { buscaId, deleteId } from '../../../services/Service';
 
 import './DeletarPostagem.css';
 
 function DeletarPostagem() {
 
-    let history = useHistory();
+    let history = useNavigate();
 
     const { id } = useParams<{ id: string }>();
 
@@ -25,13 +25,13 @@ function DeletarPostagem() {
     useEffect(() => {
         if (token === "") {
             alert("Você precisa estar logado")
-            history.push("/login")
+            history("/login")
 
         }
     }, [token])
 
     useEffect(() => {
-        if (id !== '') {
+        if (id !== undefined) {
             findById(id)
         }
     }, [id])
@@ -44,18 +44,23 @@ function DeletarPostagem() {
         })
     }
 
-    function sim() {
-        history.push('/posts')
-        deleteId(`/postagens/${id}`, {
-            headers: {
-                'Authorization': token
-            }
-        });
-        alert('Postagem deletada com sucesso');
+    async function sim() {
+        history('/posts')
+
+        try {
+            await deleteId(`/postagens/${id}`, {
+                headers: {
+                    'Authorization': token
+                }
+            });
+            alert('Postagem deletada com sucesso');
+        } catch (error) {
+            alert('Erro ao deletar');
+        }
     }
 
     function nao() {
-        history.push('/posts')
+        history('/posts')
     }
 
     return (

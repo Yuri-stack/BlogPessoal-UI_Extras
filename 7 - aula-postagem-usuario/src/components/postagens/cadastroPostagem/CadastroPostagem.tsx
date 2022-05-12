@@ -1,11 +1,11 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import { Button, Container, FormControl, FormHelperText, InputLabel, MenuItem, Select, TextField, Typography } from '@material-ui/core'
-import { useHistory, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import { useSelector } from 'react-redux';
-import { UserState } from '../../../store/user/userReducer';
-
+import { UserState } from '../../../store/tokens/userReducer';
 import { busca, buscaId, post, put } from '../../../services/Service';
+
 import Tema from '../../../models/Tema'
 import Postagem from '../../../models/Postagem'
 import User from '../../../models/User';
@@ -14,7 +14,7 @@ import './CadastroPostagem.css'
 
 function CadastroPostagem() {
 
-    let history = useHistory()
+    let history = useNavigate()
 
     const { id } = useParams<{ id: string }>()
 
@@ -25,7 +25,7 @@ function CadastroPostagem() {
     )
 
     // Pega o ID guardado no Store
-    const userId = useSelector<UserState, UserState["id"]>(
+    const usuarioId = useSelector<UserState, UserState["id"]>(
         (state) => state.id
     );
 
@@ -38,12 +38,13 @@ function CadastroPostagem() {
         id: 0,
         titulo: '',
         texto: '',
+        data: '',
         tema: null,
         usuario: null
     })
 
-    const [user, setUser] = useState<User>({
-        id: +userId,    // Faz uma conversão de String para Number
+    const [usuario, setUsuario] = useState<User>({
+        id: +usuarioId,    // Faz uma conversão de String para Number
         nome: '',
         usuario: '',
         senha: '',
@@ -53,20 +54,21 @@ function CadastroPostagem() {
     useEffect(() => {
         if (token === "") {
             alert("Você precisa estar logado")
-            history.push("/login")
+            history("/login")
         }
     }, [token])
 
     useEffect(() => {
         setPostagem({
             ...postagem,
-            tema: tema
+            tema: tema,
+            usuario: usuario
         })
     }, [tema])
 
     useEffect(() => {
         getTemas()
-        if (id !== '') {
+        if (id !== undefined) {
             findByIdPostagem(id)
         }
     }, [id])
@@ -91,8 +93,7 @@ function CadastroPostagem() {
         setPostagem({
             ...postagem,
             [e.target.name]: e.target.value,
-            tema: tema,
-            usuario: user
+            tema: tema
         })
     }
 
@@ -100,43 +101,34 @@ function CadastroPostagem() {
         e.preventDefault()
 
         if (id !== undefined) {
-
             try {
                 await put(`/postagens`, postagem, setPostagem, {
                     headers: {
                         'Authorization': token
                     }
                 })
-
                 alert('Postagem atualizada com sucesso');
-
             } catch (error) {
-                console.log(`Error: ${error}`)
-                alert('Ops, algo deu errado. Tente novamente');
+                alert("Erro ao atualizar, verifique os campos")
             }
 
         } else {
-
             try {
                 await post(`/postagens`, postagem, setPostagem, {
                     headers: {
                         'Authorization': token
                     }
                 })
-
                 alert('Postagem cadastrada com sucesso');
-                
             } catch (error) {
-                console.log("Error: " + error)
-                alert('Ops, algo deu errado. Tente novamente');
+                alert("Erro ao cadastrar, verifique os campos")
             }
-            
         }
         back()
     }
 
     function back() {
-        history.push('/posts')
+        history('/posts')
     }
 
     return (

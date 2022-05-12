@@ -1,18 +1,18 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import { Button, Container, TextField, Typography } from '@material-ui/core'
-import { useHistory, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
-import { useSelector } from 'react-redux';
-import { UserState } from '../../../store/user/userReducer';
-
+import { useSelector } from 'react-redux'
 import { buscaId, post, put } from '../../../services/Service'
+
+import { UserState } from '../../../store/tokens/userReducer'
 import Tema from '../../../models/Tema'
 
 import "./CadastroTema.css"
 
 function CadastroTema() {
 
-    let history = useHistory()
+    let history = useNavigate()
 
     const { id } = useParams<{ id: string }>()
 
@@ -21,19 +21,19 @@ function CadastroTema() {
     )
 
     const [tema, setTema] = useState<Tema>({
-        id: 0, 
+        id: 0,
         descricao: ''
     })
 
     useEffect(() => {
         if (token === "") {
             alert("Você precisa estar logado")
-            history.push("/login")
+            history("/login")
         }
     }, [token])
 
     async function findById(id: string) {
-        buscaId(`/temas/${id}`, setTema, {
+        await buscaId(`/temas/${id}`, setTema, {
             headers: {
                 'Authorization': token
             }
@@ -57,42 +57,59 @@ function CadastroTema() {
         e.preventDefault()
 
         if (id !== undefined) {
-            console.log(tema)
-            put(`/temas`, tema, setTema, {
-                headers: {
-                    'Authorization': token
-                }
-            })
-            alert('Tema atualizado com sucesso');
+
+            try {
+                await put(`/temas`, tema, setTema, {
+                    headers: {
+                        'Authorization': token
+                    }
+                })
+
+                alert('Tema atualizado com sucesso');
+
+            } catch (error) {
+                console.log(`Error: ${error}`)
+                alert("Erro, por favor verifique a quantidade minima de caracteres")
+            }
+
         } else {
-            post(`/temas`, tema, setTema, {
-                headers: {
-                    'Authorization': token
-                }
-            })
-            alert('Tema cadastrado com sucesso');
+
+            try {
+                await post(`/temas`, tema, setTema, {
+                    headers: {
+                        'Authorization': token
+                    }
+                })
+                
+                alert('Tema cadastrado com sucesso');
+                
+            } catch (error) {
+                console.log(`Error: ${error}`)
+                alert("Erro, por favor verifique a quantidade minima de caracteres")
+            }
         }
+        
         back()
 
     }
 
     function back() {
-        history.push('/temas')
+        history('/temas')
     }
 
     return (
         <Container maxWidth="sm" className="topo">
-            <form onSubmit={ onSubmit }>
+            <form onSubmit={onSubmit}>
                 <Typography variant="h3" color="textSecondary" component="h1" align="center" >Formulário de cadastro tema</Typography>
                 <TextField
-                    value={ tema.descricao }
+                    value={tema.descricao}
                     onChange={(e: ChangeEvent<HTMLInputElement>) => updatedModel(e)}
-                    id="descricao" 
-                    label="descricao" 
-                    variant="outlined" 
-                    name="descricao" 
-                    margin="normal" 
-                    fullWidth 
+                    id="descricao"
+                    label="descricao"
+                    variant="outlined"
+                    name="descricao"
+                    margin="normal"
+                    fullWidth
                 />
                 <Button type="submit" variant="contained" color="primary">
                     Finalizar

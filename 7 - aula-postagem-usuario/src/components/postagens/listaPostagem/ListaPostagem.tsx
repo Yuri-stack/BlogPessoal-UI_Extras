@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { Box, Button, Card, CardActions, CardContent, Typography } from '@material-ui/core'
-import { Link, useHistory } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { useSelector } from 'react-redux'
-import { UserState } from '../../../store/user/userReducer';
+import { UserState } from '../../../store/tokens/userReducer';
+import { busca } from '../../../services/Service'
 
 import Postagem from '../../../models/Postagem'
-import { busca } from '../../../services/Service'
 
 import './ListaPostagem.css'
 
-
 function ListaPostagem() {
 
-  let history = useHistory()
+  let history = useNavigate()
 
   const [posts, setPost] = useState<Postagem[]>([])
 
@@ -24,7 +23,7 @@ function ListaPostagem() {
   useEffect(() => {
     if (token === "") {
       alert("Você precisa estar logado")
-      history.push("/login")
+      history("/login")
     }
   }, [token])
 
@@ -63,7 +62,6 @@ function ListaPostagem() {
                 {post.tema?.descricao}
               </Typography>
 
-              {/* Add esse campo para mostrar o nome do User que criou a Postagem  */}
               <Typography variant="body2" component="p">
                 {post.usuario?.nome}
               </Typography>

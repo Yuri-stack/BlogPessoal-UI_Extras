@@ -1,16 +1,16 @@
 import React from 'react'
 import { AppBar, Box, Toolbar, Typography } from '@material-ui/core'
-import { Link, useHistory } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { useDispatch, useSelector } from 'react-redux';
-import { UserState } from '../../../store/user/userReducer';
-import { addToken, addId } from '../../../store/user/action';
+import { UserState } from '../../../store/tokens/userReducer';
+import { addToken } from '../../../store/tokens/action';
 
-import './NavBar.css'
+import './Navbar.css'
 
-function NavBar() {
+function Navbar() {
 
-    let history = useHistory()
+    let history = useNavigate()
 
     const dispatch = useDispatch()
 
@@ -18,15 +18,10 @@ function NavBar() {
         (state) => state.tokens
     )
 
-    const id = useSelector<UserState, UserState["id"]>(
-        (state) => state.id
-    )
-
     function goLogout() {
         dispatch(addToken(''))
-        dispatch(addId(''))
         alert("Usuário deslogado")
-        history.push("/login")
+        history("/login")
     }
 
     var navBarComponent
@@ -95,9 +90,9 @@ function NavBar() {
 
     return (
         <>
-            { navBarComponent }
+            {navBarComponent}
         </>
     )
 }
 
-export default NavBar
+export default Navbar
