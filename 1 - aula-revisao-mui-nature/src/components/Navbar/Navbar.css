@@ -1,0 +1,14 @@
+.back{
+    background: linear-gradient(36deg, #2ba09a 8%, #4ab444 89%);
+}
+
+.toolbar{
+    display: flex;
+    /* flex-direction: column; */
+    /* align-items: flex-end; Organizar item na vertical */
+    justify-content: space-between; /* Organizar item na horizontal */
+}
+
+.title{
+    font-weight: bold;
+}

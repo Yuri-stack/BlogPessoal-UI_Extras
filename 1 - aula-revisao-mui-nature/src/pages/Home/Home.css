@@ -1,0 +1,44 @@
+.background{
+    width: 100vw;
+    height: calc(100vh - 64px);
+
+    background-image: url('https://viagemeturismo.abril.com.br/wp-content/uploads/2016/12/bonito.jpeg?quality=70&strip=info&w=1024&resize=1200,800');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.card{
+    background: linear-gradient(36deg, #2ba09a90 8%, #4ab44490 89%);
+    /* opacity: 80%; */
+}
+
+.form-title{
+    font-weight: bold;
+    color: #ffffff;
+}
+
+form{
+    width: 270px;
+}
+
+.form-input{
+    width: 100%;
+}
+
+.MuiFormLabel-root{
+    color: #ffffff!important;
+    font-weight: bold!important;
+}
+
+.MuiInput-underline:after {
+    border-bottom: 2px solid yellow!important;
+}
+
+.botao{
+    background-color: #4ab444;
+}
+
+.botao:hover{
+    background-color: #2ba09a;
+}
