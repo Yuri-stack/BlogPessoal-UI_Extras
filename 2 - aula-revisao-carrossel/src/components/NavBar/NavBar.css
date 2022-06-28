@@ -1,0 +1,13 @@
+.class-AppBar{
+    background-color: #171717!important;
+}
+
+.class-ToolBar{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.title{
+    font-weight: bold!important;
+    margin-right: 25px!important;
+}
